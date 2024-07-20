@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -79,7 +76,14 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Time takes to land or launch the ship.")]
     [SerializeField] float LandTime;
     float landTimer;
+    int rotf, rotb, rotr, rotl;
     float hor, ver;
+    float heightpoint;
+    float timeCounter = 10;
+    [SerializeField] Transform[] RadarTransform;
+    [SerializeField] float RayDistance; 
+    [SerializeField] float RayDistanceF;
+
     #endregion
 
     #region Unity events
@@ -98,10 +102,13 @@ public class PlayerMovement : MonoBehaviour
         PlayerFlyState = 2;
         IsJumping = 2;
         landTimer = LandTime;
+        heightpoint = PlanetSurface[PlanetIndex].transform.position.y;
     }
 
     private void Update()
     {
+        if (LevelManager.instance.IsDead == true)  return;
+
         PlanetSwitcher();
         PlayerMove();
     }
@@ -143,12 +150,8 @@ public class PlayerMovement : MonoBehaviour
     public void RotatePlanet(int i)
     {
         PlanetIndex = i;
-
-        hor = Input.GetAxis("Horizontal");
-        ver = Input.GetAxis("Vertical");
-
-        Planet[PlanetIndex].transform.Rotate(Vector3.left, RotateRate*Time.deltaTime * ver, Space.World);
-        Planet[PlanetIndex].transform.Rotate(Vector3.forward, RotateRate*Time.deltaTime *  hor, Space.World);
+        Planet[PlanetIndex].transform.Rotate(Vector3.left, RotateRate * Time.deltaTime * ver, Space.World);
+        Planet[PlanetIndex].transform.Rotate(Vector3.forward, RotateRate * Time.deltaTime * hor, Space.World);
     }
     #endregion
 
@@ -162,9 +165,6 @@ public class PlayerMovement : MonoBehaviour
         {
             // Flying
             case 0:
-
-                LevelManager.instance.MapPanel.SetActive(true);
-
                 transform.LookAt(PlanetOrbit[PlanetIndex].transform);
                 transform.position = new Vector3(Mathf.Lerp(transform.position.x, PlanetOrbit[PlanetIndex].transform.position.x, MoveRate), Mathf.Lerp(transform.position.y, PlanetOrbit[PlanetIndex].transform.position.y, LandRate), Mathf.Lerp(transform.position.z, PlanetOrbit[PlanetIndex].transform.position.z, MoveRate));
 
@@ -219,6 +219,12 @@ public class PlayerMovement : MonoBehaviour
             // OnLand
             case 2:
 
+                float h = Input.GetAxis("Horizontal");
+                float v = Input.GetAxis("Vertical");
+                hor = h;
+                ver = v;
+
+
                 for (int c = 0; c < PlanetCam.Length; c++)
                 {
                     if (c != PlanetIndex + 1)
@@ -229,7 +235,7 @@ public class PlayerMovement : MonoBehaviour
                 PlanetCam[PlanetIndex+1].SetActive(true);
 
                 // Jumping as Player
-                if (Input.GetKeyDown(KeyCode.Space) && IsJumping == 2)
+               /* if (Input.GetKeyDown(KeyCode.Space) && IsJumping == 2)
                 {
                     IsJumping = 1;  
                 }
@@ -237,8 +243,8 @@ public class PlayerMovement : MonoBehaviour
                 switch (IsJumping)
                 {
                     case 0:
-                        transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, PlanetSurface[PlanetIndex].transform.position.y, transform.position.z), JumpRate);
-                        if (transform.position.y <= PlanetSurface[PlanetIndex].transform.position.y)
+                        transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, heightpoint, transform.position.z), JumpRate);
+                        if (transform.position.y <= heightpoint)
                         {
                             IsJumping = 2;
                         }
@@ -246,17 +252,17 @@ public class PlayerMovement : MonoBehaviour
                         break;
 
                     case 1:
-                        transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, PlanetSurface[PlanetIndex].transform.position.y + JumpHeight, transform.position.z), JumpRate);
-                        if (transform.position.y >= PlanetSurface[PlanetIndex].transform.position.y + JumpHeight)
+                        transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, heightpoint + JumpHeight, transform.position.z), JumpRate);
+                        if (transform.position.y >= heightpoint + JumpHeight)
                         {
                             IsJumping = 0;
                         }
                         break;
 
                     case 2:
-                        transform.position = PlanetSurface[PlanetIndex].transform.position;
+                        transform.position = new Vector3(PlanetSurface[PlanetIndex].transform.position.x,heightpoint, PlanetSurface[PlanetIndex].transform.position.z);
                         break;
-                }
+                }*/
                    
                 // Rotating the Player while on ground
                 if (hor != 0 || ver != 0)
@@ -264,10 +270,86 @@ public class PlayerMovement : MonoBehaviour
                     Vector3 direction = new Vector3(hor, 0, ver);
                     Quaternion targetRotation = Quaternion.LookRotation(direction);
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, PlayerLookRate * Time.deltaTime);
-
-                   Sun.transform.Rotate(Vector3.left, RotateRate * Time.deltaTime * ver, Space.World);
+                    Sun.transform.Rotate(Vector3.left, RotateRate * Time.deltaTime * ver, Space.World);
                 }
+                
+                /*
+                Vector3 rayDirection = -transform.up;
+                Ray ray = new Ray(RadarTransform[0].position, rayDirection);
+                RaycastHit hit;
 
+                if (Physics.Raycast(ray, out hit, RayDistance))
+                {
+                    if (hit.collider.gameObject.tag == "Planet")
+                    {
+                        Vector3 targetNormal = hit.normal;
+                        Quaternion targetplayerRotation = Quaternion.FromToRotation(transform.forward, targetNormal);
+
+                        heightpoint = hit.point.y + 0.25f;
+                       
+                    }
+                }
+                Debug.DrawRay(RadarTransform[0].position, rayDirection * RayDistance, Color.red);
+
+                float angle = Mathf.Sin(timeCounter * 3) * 10;
+                timeCounter += Time.deltaTime;
+
+                Vector3 rayDirection1 =  RadarTransform[1].transform.forward;
+                Ray ray1 = new Ray(RadarTransform[1].position, rayDirection1);
+                RaycastHit hit1;
+
+                Vector3 rayDirection2 =  RadarTransform[2].transform.forward;
+                Ray ray2 = new Ray(RadarTransform[2].position, rayDirection2);
+                RaycastHit hit2;
+
+                Vector3 rayDirection3 =  RadarTransform[3].transform.forward;
+                Ray ray3 = new Ray(RadarTransform[3].position, rayDirection3);
+                RaycastHit hit3;
+
+                Vector3 rayDirection4 =  RadarTransform[4].transform.forward;
+                Ray ray4 = new Ray(RadarTransform[4].position, rayDirection4);
+                RaycastHit hit4;
+
+                if (Physics.Raycast(ray1, out hit1, RayDistanceF))
+                {
+                    if (hit1.collider.gameObject.tag == "Planet")
+                    {
+                        Debug.LogWarning("Ship Stop");
+                        ver = Mathf.Clamp(v, 0, 1) ;
+                    }
+                }
+                Debug.DrawRay(RadarTransform[1].position, rayDirection1 * RayDistanceF, Color.yellow);
+
+                if (Physics.Raycast(ray2, out hit2, RayDistanceF))
+                {
+                    if (hit2.collider.gameObject.tag == "Planet")
+                    {
+                        Debug.LogWarning("Ship Stop");
+                        ver = Mathf.Clamp(v, -1, 0);
+                    }
+                }
+                Debug.DrawRay(RadarTransform[2].position, rayDirection2 * RayDistanceF, Color.yellow);
+
+                if (Physics.Raycast(ray3, out hit3, RayDistanceF))
+                {
+                    if (hit3.collider.gameObject.tag == "Planet")
+                    {
+                        Debug.LogWarning("Ship Stop");
+                        hor = Mathf.Clamp(h, -1, 0);
+                    }
+                }
+                Debug.DrawRay(RadarTransform[3].position, rayDirection3 * RayDistanceF, Color.yellow);
+
+                if (Physics.Raycast(ray4, out hit4, RayDistanceF))
+                {
+                    if (hit4.collider.gameObject.tag == "Planet")
+                    {
+                        Debug.LogWarning("Ship Stop");
+                        hor = Mathf.Clamp(h, 0, 1);
+                    }
+                }
+                Debug.DrawRay(RadarTransform[4].position, rayDirection4 * RayDistanceF, Color.yellow);
+                */
                 // Checking the Collision with Raycast
 
 
@@ -297,6 +379,7 @@ public class PlayerMovement : MonoBehaviour
                 else if (LanderState == 1)
                 {
                     Debug.LogWarning("Ship Launched");
+                    LevelManager.instance.MapPanel.SetActive(true);
                     PlayerFlyState = 0;
                 }
                 landTimer = LandTime;
@@ -306,6 +389,17 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Colliders
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Planet")
+        {
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
+            LevelManager.instance.IsDead = true;
+            LevelManager.instance.DeadPanel.SetActive(true);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "LaunchPad")

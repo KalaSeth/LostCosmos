@@ -6,11 +6,14 @@ TagManager:
   tags:
   - LaunchPad
   - LandingPad
+  - Planet
+  - Trader
+  - Collect
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Planet
   - Water
   - UI
   - 

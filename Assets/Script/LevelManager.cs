@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class LevelManager : MonoBehaviour
      
     [Tooltip(" HUD UI Panel")]
     [SerializeField] public GameObject HUDPanel;
+    
+    [Tooltip(" Dead UI Panel")]
+    [SerializeField] public GameObject DeadPanel;
 
      
     [Tooltip(" if true => Paused, false => Unpaused")]
@@ -29,6 +33,12 @@ public class LevelManager : MonoBehaviour
      
     [Tooltip(" if Cutscene is playing or not, true = yes, false = no")]
     [SerializeField] public bool IsCutscene;
+
+    [SerializeField]public string[] QuestText;
+    public int QuestIndex;
+    
+    [SerializeField]public string[] DialogueText;
+    public int DialogueIndex;
 
     private void Awake()
     {
@@ -43,7 +53,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     public void OnClickCoordinate(int i)
