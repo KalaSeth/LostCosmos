@@ -21,6 +21,12 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("Index for flow control of planets in scene")]
     [SerializeField] public int PlanetIndex;
 
+    [Tooltip("All Planet names")]
+    [SerializeField] public string[] PlanetNames;
+
+    [Tooltip("Sun")]
+    [SerializeField] public GameObject Sun;
+
     [Tooltip("All Virtual Cams assigned to each planets and player")]
     /// <summary> 
     /// Cam Index for(Planet++)
@@ -58,7 +64,6 @@ public class PlayerMovement : MonoBehaviour
     int IsJumping;
 
     [Tooltip("0 = Flying, 1 = Orbit, 2 = OnGround")]
-    [HideInInspector]
     public int PlayerFlyState;
 
     /// <summary>
@@ -92,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
         PlanetIndex = 0;
         PlayerFlyState = 2;
         IsJumping = 2;
+        landTimer = LandTime;
     }
 
     private void Update()
@@ -156,13 +162,34 @@ public class PlayerMovement : MonoBehaviour
         {
             // Flying
             case 0:
-                transform.LookAt(PlanetSurface[PlanetIndex].transform);
-                transform.position = new Vector3(Mathf.Lerp(transform.position.x, PlanetSurface[PlanetIndex].transform.position.x, MoveRate), Mathf.Lerp(transform.position.y, PlanetSurface[PlanetIndex].transform.position.y, LandRate), Mathf.Lerp(transform.position.z, PlanetSurface[PlanetIndex].transform.position.z, MoveRate));
+
+                LevelManager.instance.MapPanel.SetActive(true);
+
+                transform.LookAt(PlanetOrbit[PlanetIndex].transform);
+                transform.position = new Vector3(Mathf.Lerp(transform.position.x, PlanetOrbit[PlanetIndex].transform.position.x, MoveRate), Mathf.Lerp(transform.position.y, PlanetOrbit[PlanetIndex].transform.position.y, LandRate), Mathf.Lerp(transform.position.z, PlanetOrbit[PlanetIndex].transform.position.z, MoveRate));
+
+                for (int c = 0; c < PlanetCam.Length; c++)
+                {
+                    if (c != 0)
+                    {
+                        PlanetCam[c].SetActive(false);
+                    }
+                }
+                PlanetCam[0].SetActive(true);
                 break;
 
             // Orbiting
             case 1:
 
+                for (int c = 0; c < PlanetCam.Length; c++)
+                {
+                    if (c != 0)
+                    {
+                        PlanetCam[c].SetActive(false);
+                    }
+                }
+
+                PlanetCam[0].SetActive(true);
                 // Landing and Launching the ship in Orbit Mode
                 if (LandingPerms == true)
                 {
@@ -177,20 +204,29 @@ public class PlayerMovement : MonoBehaviour
                 {
                     // Landing
                     case 0:
-                        transform.Rotate(Vector3.zero, Space.World);
+                        //transform.Rotate(Vector3.zero, Space.World);
                         transform.position = new Vector3(Mathf.Lerp(transform.position.x, PlanetSurface[PlanetIndex].transform.position.x, MoveRate), Mathf.Lerp(transform.position.y, PlanetSurface[PlanetIndex].transform.position.y, LandRate), Mathf.Lerp(transform.position.z, PlanetSurface[PlanetIndex].transform.position.z, MoveRate));
                         break;
 
                     // Launching
                     case 1:
                         transform.LookAt(PlanetOrbit[PlanetIndex].transform);
-                        transform.position = new Vector3(Mathf.Lerp(transform.position.x, PlanetOrbit[PlanetIndex].transform.position.x, MoveRate), Mathf.Lerp(transform.position.y, PlanetOrbit[PlanetIndex].transform.position.y, LandRate), Mathf.Lerp(transform.position.z, PlanetOrbit[PlanetIndex].transform.position.z, MoveRate));
+                        transform.position = new Vector3(Mathf.Lerp(transform.position.x, PlanetOrbit[PlanetIndex].transform.position.x, MoveRate), Mathf.Lerp(transform.position.y, 24, LandRate), Mathf.Lerp(transform.position.z, PlanetOrbit[PlanetIndex].transform.position.z, MoveRate));
                         break;
                 }
                 break;
 
             // OnLand
             case 2:
+
+                for (int c = 0; c < PlanetCam.Length; c++)
+                {
+                    if (c != PlanetIndex + 1)
+                    {
+                        PlanetCam[c].SetActive(false);
+                    }
+                }
+                PlanetCam[PlanetIndex+1].SetActive(true);
 
                 // Jumping as Player
                 if (Input.GetKeyDown(KeyCode.Space) && IsJumping == 2)
@@ -228,6 +264,8 @@ public class PlayerMovement : MonoBehaviour
                     Vector3 direction = new Vector3(hor, 0, ver);
                     Quaternion targetRotation = Quaternion.LookRotation(direction);
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, PlayerLookRate * Time.deltaTime);
+
+                   Sun.transform.Rotate(Vector3.left, RotateRate * Time.deltaTime * ver, Space.World);
                 }
 
                 // Checking the Collision with Raycast
@@ -242,7 +280,6 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void PlayerLander(int i)
     {
-        Debug.LogWarning("Seq Started");
         LanderState = i;
 
         if (landTimer <= LandTime)
@@ -273,18 +310,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.tag == "LaunchPad")
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            Debug.Log("Launching Perms");
+            if (Input.GetKey(KeyCode.E))
             {
-                Debug.Log("Launching Perms");
+                LandingPerms = true;
                 PlayerFlyState = 1;
             }
-        }
+        } 
 
         if (other.gameObject.tag == "LandingPad")
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            Debug.Log("Landing Perms");
+            if (Input.GetKey(KeyCode.E))
             {
-                Debug.Log("Landing Perms");
+                LandingPerms = false;
                 PlayerFlyState = 1;
             }
         }

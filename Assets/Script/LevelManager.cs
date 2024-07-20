@@ -45,4 +45,10 @@ public class LevelManager : MonoBehaviour
     {
         
     }
+
+    public void OnClickCoordinate(int i)
+    {
+        PlayerMovement.instance.PlanetIndex = i;
+    }
+
 }
