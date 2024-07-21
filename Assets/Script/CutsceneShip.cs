@@ -45,6 +45,7 @@ public class CutsceneShip : MonoBehaviour
                 break;
 
             case 1:
+                LevelManager.instance.alertpanel.SetActive(true);
                 transform.position = Vector3.MoveTowards(transform.position, target.position, speed[1] * Time.deltaTime);
                 break;
 
@@ -69,6 +70,7 @@ public class CutsceneShip : MonoBehaviour
             Player.SetActive(true);
             Playercam.SetActive(true);
             LevelManager.instance.DialoguePanel.SetActive(true);
+            LevelManager.instance.dwriter();
         }
     }
 

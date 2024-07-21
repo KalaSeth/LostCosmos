@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
     
     [Tooltip(" Dead UI Panel")]
     [SerializeField] public GameObject DeadPanel;
+    [SerializeField] public GameObject alertpanel;
 
     [Tooltip(" Dialogue UI Panel")]
     [SerializeField] public GameObject DialoguePanel;
@@ -45,7 +46,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField]public string[] DialogueText;
     public int DialogueIndex;
 
-    
+    public GameObject[] dialoButtons;
+
+    public float typingSpeed = 0.05f; // Speed at which characters are displayed
+
+    private string currentDialogue;
+    private Coroutine typingCoroutine;
+
+    public bool[] Task;
 
     private void Awake()
     {
@@ -56,86 +64,75 @@ public class LevelManager : MonoBehaviour
     {
         IsDead = false;
         IsPaused = false;
+
+        for (int i = 0; i <= Task.Length - 1; i++)
+        {
+            Task[i] = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        QuestUItext.text = QuestText[0];
-        DialogueUItext.text = DialogueText[DialogueIndex];
+        QuestUItext.text = QuestText[0]; 
+        
     }
 
-    public void ShowDialogue()
-    {
-        switch (DialogueIndex)
-        {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
-            case 10:
-                break;
-        }
-    }
-    
     public void onclickDisplaynext()
     {
         switch (DialogueIndex)
         {
             case 0:
-                
-                Invoke("DelayDialoguebox", Dialoguetime);
-                
+                dwriter();
                 break;
 
             case 1:
+                dwriter();
                 IsCutscene = false;
-                Invoke("DelayDialoguebox", Dialoguetime);
+                alertpanel.SetActive(false);
                 break;
 
             case 2:
-                Invoke("DelayDialoguebox", Dialoguetime);
+                HUDPanel.SetActive(true);
+                dwriter();
                 break;
 
             case 3:
-                Invoke("DelayDialoguebox", Dialoguetime);
+                DialoguePanel.SetActive(false);
+                dwriter();
                 break;
 
             case 4:
+                DialoguePanel.SetActive(false);
+                dwriter();
                 break;
 
             case 5:
+                dwriter();
                 break;
 
             case 6:
+                dialoButtons[1].SetActive(true);
+                DialoguePanel.SetActive(false);
+                dwriter();
                 break;
 
             case 7:
+                dialoButtons[1].SetActive(true);
+                DialoguePanel.SetActive(false);
+                dwriter();
                 break;
 
             case 8:
+                dwriter();
                 break;
 
             case 9:
+                dwriter();
                 break;
 
             case 10:
+                dwriter();
                 break;
         }
     }
@@ -147,7 +144,10 @@ public class LevelManager : MonoBehaviour
 
     public void OnClickNextDialogue()
     {
+        dialoButtons[0].SetActive(false);
+        dialoButtons[1].SetActive(false);
         DialogueIndex++;
+        StopAllCoroutines();
     }
 
     public void OnclickDied()
@@ -161,4 +161,24 @@ public class LevelManager : MonoBehaviour
         PlayerMovement.instance.PlanetIndex = i;
     }
 
+    public void dwriter()
+    {
+        DialogueUItext.text = " ";
+        StartCoroutine(TypeDialogue());
+    }
+
+     private IEnumerator TypeDialogue()
+     {
+        DialogueUItext.text = " ";
+        foreach (char letter in DialogueText[DialogueIndex])
+        {
+            DialogueUItext.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+        dialoButtons[0].SetActive(true);
+        if (DialogueIndex == 6 || DialogueIndex == 7)
+        {
+            dialoButtons[1].SetActive(true);
+        }
+    }
 }

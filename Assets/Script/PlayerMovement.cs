@@ -58,7 +58,6 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// if player is jumping or not, 0 = no, 1 = yes, 2 = Rest
     /// </summary>
-    int IsJumping;
 
     [Tooltip("0 = Flying, 1 = Orbit, 2 = OnGround")]
     public int PlayerFlyState;
@@ -100,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
         /// 
         PlanetIndex = 0;
         PlayerFlyState = 2;
-        IsJumping = 2;
         landTimer = LandTime;
         heightpoint = PlanetSurface[PlanetIndex].transform.position.y;
         transform.position = player1.transform.position;
@@ -403,9 +401,39 @@ public class PlayerMovement : MonoBehaviour
             LevelManager.instance.DeadPanel.SetActive(true);
         }
 
+        if (other.gameObject.tag == "LaunchPad")
+        {
+            if (LevelManager.instance.DialogueIndex == 3)
+            {
+                LevelManager.instance.DialogueIndex++;
+                LevelManager.instance.dwriter();
+                LevelManager.instance.DialoguePanel.SetActive(true);
+            }
+        }
+
         if (other.gameObject.tag == "Trader")
         {
-            LevelManager.instance.DialoguePanel.SetActive(true);
+            if (LevelManager.instance.DialogueIndex == 5)
+            {
+                LevelManager.instance.DialogueIndex++;
+                LevelManager.instance.dwriter();
+                LevelManager.instance.DialoguePanel.SetActive(true);
+            }
+
+            if (LevelManager.instance.DialogueIndex == 6 && LevelManager.instance.Task[0] == true)
+            {
+                LevelManager.instance.DialogueIndex++;
+                LevelManager.instance.dwriter();
+                LevelManager.instance.DialoguePanel.SetActive(true);
+            }
+
+            if (LevelManager.instance.DialogueIndex == 7 && LevelManager.instance.Task[1] == true)
+            {
+                LevelManager.instance.DialogueIndex++;
+                LevelManager.instance.dwriter();
+                LevelManager.instance.DialoguePanel.SetActive(true);
+            }
+
         }
     }
 
