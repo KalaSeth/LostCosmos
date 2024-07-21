@@ -79,11 +79,11 @@ public class PlayerMovement : MonoBehaviour
     int rotf, rotb, rotr, rotl;
     float hor, ver;
     float heightpoint;
-    float timeCounter = 10;
     [SerializeField] Transform[] RadarTransform;
     [SerializeField] float RayDistance; 
     [SerializeField] float RayDistanceF;
 
+    public GameObject player1;
     #endregion
 
     #region Unity events
@@ -103,12 +103,16 @@ public class PlayerMovement : MonoBehaviour
         IsJumping = 2;
         landTimer = LandTime;
         heightpoint = PlanetSurface[PlanetIndex].transform.position.y;
+        transform.position = player1.transform.position;
+        transform.rotation = player1.transform.rotation;
+        player1.SetActive(false);
     }
 
     private void Update()
     {
         if (LevelManager.instance.IsDead == true)  return;
-
+        if (LevelManager.instance.IsCutscene == true) return;
+        if (LevelManager.instance.IsPaused == true) return;
         PlanetSwitcher();
         PlayerMove();
     }
@@ -397,6 +401,19 @@ public class PlayerMovement : MonoBehaviour
             gameObject.GetComponent<Rigidbody>().useGravity = true;
             LevelManager.instance.IsDead = true;
             LevelManager.instance.DeadPanel.SetActive(true);
+        }
+
+        if (other.gameObject.tag == "Trader")
+        {
+            LevelManager.instance.DialoguePanel.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Trader")
+        {
+
         }
     }
 
