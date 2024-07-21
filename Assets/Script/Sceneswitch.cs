@@ -10,6 +10,11 @@ public class Sceneswitch : MonoBehaviour
         Invoke("Golevel", 12);
     }
 
+    public void About()
+    {
+        Application.OpenURL("https://zherblast.com/");
+    }
+
     public void Golevel()
     {
         SceneManager.LoadScene(1);
