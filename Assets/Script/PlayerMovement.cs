@@ -413,7 +413,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (other.gameObject.tag == "Trader")
         {
-            if (LevelManager.instance.DialogueIndex == 5)
+            if (LevelManager.instance.DialogueIndex == 4)
             {
                 LevelManager.instance.DialogueIndex++;
                 LevelManager.instance.dwriter();

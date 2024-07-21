@@ -5208,23 +5208,25 @@ MonoBehaviour:
   QuestUItext: {fileID: 161566468}
   DialogueUItext: {fileID: 1916456625}
   Dialoguetime: 0.5
+  Popo: {fileID: 1555769212}
   DialogueText:
-  - It seems our space jump calculation was not right.
-  - We are low on jump fuel.
-  - We need to find a way out of this solar system.
-  - You must find some launch site to get some resource.
-  - Launch site is locked by Space D-Lal (Trader)
-  - 'Incoming Call from D-Lal : "Hello stranger!"'
-  - '"Find 2 lost containers and I will allow you to use the launch site. Deal or
-    No Deal"'
-  - '"Man you are good at this! Can you find one more?" - D-Lal'
-  - '"You can use the Launch site! Also I heard there''s some Jump fuel on Planet
-    Jam-U" - D-Lal'
-  DialogueIndex: 0
+  - 'Bot Popo : "It seems our space jump calculation was not right."'
+  - 'Bot Popo : "We are low on jump fuel."'
+  - 'Bot Popo : "We need to find a way out of this solar system!"'
+  - 'Bot Popo : "You must find some launch site to get some resource."'
+  - 'Bot Popo : "Launch site is locked by Space D-Lal (Trader)"'
+  - Incoming Call from D-Lal  "Hello stranger!"
+  - 'D-Lal : "Find 2 lost containers and I will allow you to use the launch site.
+    Deal or No Deal"'
+  - 'D-Lal : "Man you are good at this! Can you find one more?"'
+  - 'D-Lal : "You can use the Launch site!"'
+  - 'D-Lal : "Also I heard there''s some Jump fuel on Planet Jam-U"'
+  DialogueIndex: 3
   dialoButtons:
   - {fileID: 1793607962}
   - {fileID: 293406745}
   typingSpeed: 0.02
+  Task: 0000
 --- !u!1 &37398253
 GameObject:
   m_ObjectHideFlags: 0
@@ -5295,7 +5297,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.34047917, y: 0.8054074}
   m_AnchorMax: {x: 0.50625, y: 0.9480001}
-  m_AnchoredPosition: {x: 2.4220886, y: 2.5622559}
+  m_AnchoredPosition: {x: 2.4221191, y: 2.5622559}
   m_SizeDelta: {x: -14.875916, y: -11.082397}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &53984065
@@ -6831,7 +6833,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.7602222}
   m_AnchorMax: {x: 0.6551875, y: 0.8831852}
-  m_AnchoredPosition: {x: 8.449997, y: -0.5}
+  m_AnchoredPosition: {x: 8.450012, y: -0.5}
   m_SizeDelta: {x: 4.1240845, y: 9.917603}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &250191812
@@ -7120,7 +7122,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &293406746
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7138,7 +7140,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5365417, y: 0.038703706}
   m_AnchorMax: {x: 0.614, y: 0.12111111}
-  m_AnchoredPosition: {x: 7.5, y: -10.759979}
+  m_AnchoredPosition: {x: 7.5, y: -10.76001}
   m_SizeDelta: {x: -3.5982056, y: -7.098297}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &293406747
@@ -7444,7 +7446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11377047, y: 0.17320149, z: -0.020146716, w: 0.9780857}
+  m_LocalRotation: {x: 0.113770455, y: 0.17320152, z: -0.020146716, w: 0.9780857}
   m_LocalPosition: {x: -392.76117, y: 30.64, z: -1726.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13336,7 +13338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6585417, y: 0.104518525}
   m_AnchorMax: {x: 0.8626875, y: 0.29900002}
-  m_AnchoredPosition: {x: 0, y: 0.2999878}
+  m_AnchoredPosition: {x: 0, y: 0.29992676}
   m_SizeDelta: {x: 13.270813, y: -2.878296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &500912534
@@ -13411,7 +13413,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.68279165, y: 0.8565556}
   m_AnchorMax: {x: 0.73631257, y: 0.94644445}
-  m_AnchoredPosition: {x: 1.6000061, y: -1.0299988}
+  m_AnchoredPosition: {x: 1.5999756, y: -1.0300293}
   m_SizeDelta: {x: -3, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &531671883
@@ -30448,7 +30450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.71400005, y: 0.8408889}
   m_AnchorMax: {x: 0.9761875, y: 0.9686667}
-  m_AnchoredPosition: {x: 1.5, y: -4.9244995}
+  m_AnchoredPosition: {x: 1.5, y: -4.9244385}
   m_SizeDelta: {x: -2.9841003, y: -0.5236206}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1372260710
@@ -30707,7 +30709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.108500026, y: 0.29900002}
   m_AnchorMax: {x: 0.38683337, y: 0.80100006}
-  m_AnchoredPosition: {x: 1.4349976, y: 3}
+  m_AnchoredPosition: {x: 1.4350586, y: 3}
   m_SizeDelta: {x: -61.557587, y: -69.55759}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1410388159
@@ -30836,7 +30838,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.254, y: 0.27800003}
   m_AnchorMax: {x: 0.749, y: 0.72381485}
-  m_AnchoredPosition: {x: -3.0000305, y: -1.0000305}
+  m_AnchoredPosition: {x: -3, y: -1}
   m_SizeDelta: {x: -5.814026, y: -6.9002075}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1418866801
@@ -31166,7 +31168,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532409870}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11377047, y: 0.17320149, z: -0.020146716, w: 0.9780857}
+  m_LocalRotation: {x: 0.113770455, y: 0.17320152, z: -0.020146716, w: 0.9780857}
   m_LocalPosition: {x: -392.76117, y: 30.64, z: -1726.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -32088,7 +32090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1793607963
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32106,7 +32108,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.37975004, y: 0.038703706}
   m_AnchorMax: {x: 0.45616668, y: 0.11100001}
-  m_AnchoredPosition: {x: 0.5, y: -2.899994}
+  m_AnchoredPosition: {x: 0.5, y: -2.8999023}
   m_SizeDelta: {x: 5.4862976, y: -0.82110596}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1793607964
@@ -32153,6 +32155,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 293406745}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 24510370}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OnClickNextDialogue
@@ -32851,7 +32865,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.34841672, y: 0.09355556}
   m_AnchorMax: {x: 0.6556667, y: 0.25266668}
-  m_AnchoredPosition: {x: 1.0296936, y: 2.048706}
+  m_AnchoredPosition: {x: 1.0296631, y: 2.048706}
   m_SizeDelta: {x: -0.79169846, y: 1.5695}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1916456625
@@ -33196,7 +33210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0047291676, y: 0.7074444}
   m_AnchorMax: {x: 0.12945834, y: 0.8054074}
-  m_AnchoredPosition: {x: 4.000122, y: -3.980011}
+  m_AnchoredPosition: {x: 4, y: -3.9799805}
   m_SizeDelta: {x: -7.7199707, y: 4.0421143}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1979762498
@@ -33597,7 +33611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.437, y: 0.11011112}
   m_AnchorMax: {x: 0.5614792, y: 0.23355557}
-  m_AnchoredPosition: {x: 1.5000153, y: -0.5}
+  m_AnchoredPosition: {x: 1.5, y: -0.5}
   m_SizeDelta: {x: -14.728394, y: -5.7687073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001557872

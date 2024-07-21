@@ -43,6 +43,8 @@ public class LevelManager : MonoBehaviour
     public Text QuestUItext;
     public Text DialogueUItext;
     public float Dialoguetime;
+    public Image Popo;
+    [TextArea]
     [SerializeField]public string[] DialogueText;
     public int DialogueIndex;
 
@@ -64,7 +66,8 @@ public class LevelManager : MonoBehaviour
     {
         IsDead = false;
         IsPaused = false;
-
+        DialogueIndex = 0;
+        Popo.color = new Color32(255, 255, 255, 255);
         for (int i = 0; i <= Task.Length - 1; i++)
         {
             Task[i] = false;
@@ -83,55 +86,72 @@ public class LevelManager : MonoBehaviour
         switch (DialogueIndex)
         {
             case 0:
+                DialogueIndex++;
+                Popo.color = new Color32(255, 255, 255, 255);
                 dwriter();
+                
                 break;
 
             case 1:
+                DialogueIndex++;
+                Popo.color = new Color32(255, 255, 255, 255);
                 dwriter();
                 IsCutscene = false;
                 alertpanel.SetActive(false);
                 break;
 
             case 2:
-                HUDPanel.SetActive(true);
+                DialogueIndex++;
+                Popo.color = new Color32(255, 255, 255, 255);
                 dwriter();
                 break;
 
             case 3:
+                HUDPanel.SetActive(true);
+                Popo.color = new Color32(255, 255, 255, 255);
                 DialoguePanel.SetActive(false);
                 dwriter();
                 break;
 
             case 4:
+                Popo.color = new Color32(255, 255, 255, 255);
                 DialoguePanel.SetActive(false);
                 dwriter();
                 break;
 
             case 5:
+                DialogueIndex++;
+                Popo.color = new Color32(255, 255, 255, 255);
                 dwriter();
                 break;
 
             case 6:
+                Popo.color = new Color32(255, 255, 100, 255);
                 dialoButtons[1].SetActive(true);
                 DialoguePanel.SetActive(false);
                 dwriter();
                 break;
 
             case 7:
+                Popo.color = new Color32(255, 255, 100, 255);
                 dialoButtons[1].SetActive(true);
                 DialoguePanel.SetActive(false);
                 dwriter();
                 break;
 
             case 8:
+                DialogueIndex++;
+                Popo.color = new Color32(255, 255, 100, 255);
                 dwriter();
                 break;
 
             case 9:
+                Popo.color = new Color32(255, 255, 100, 255);
                 dwriter();
                 break;
 
             case 10:
+                Popo.color = new Color32(255, 255, 100, 255);
                 dwriter();
                 break;
         }
@@ -146,7 +166,6 @@ public class LevelManager : MonoBehaviour
     {
         dialoButtons[0].SetActive(false);
         dialoButtons[1].SetActive(false);
-        DialogueIndex++;
         StopAllCoroutines();
     }
 
@@ -167,8 +186,8 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(TypeDialogue());
     }
 
-     private IEnumerator TypeDialogue()
-     {
+    private IEnumerator TypeDialogue()
+    {
         DialogueUItext.text = " ";
         foreach (char letter in DialogueText[DialogueIndex])
         {
@@ -180,5 +199,7 @@ public class LevelManager : MonoBehaviour
         {
             dialoButtons[1].SetActive(true);
         }
+        else { dialoButtons[1].SetActive(false); }
+
     }
 }
