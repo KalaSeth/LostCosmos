@@ -9,6 +9,7 @@ TagManager:
   - Planet
   - Trader
   - Collect
+  - Task
   layers:
   - Default
   - TransparentFX

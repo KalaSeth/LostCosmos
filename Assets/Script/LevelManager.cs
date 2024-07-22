@@ -55,6 +55,16 @@ public class LevelManager : MonoBehaviour
     private string currentDialogue;
     private Coroutine typingCoroutine;
 
+    public GameObject[] TaskCc;
+    public Text WindStatus;
+    public Slider GravityStatus;
+    public Slider O2Status;
+    public bool[] Status;
+    int WindS;
+    int GraS;
+    public int O2Timer;
+    float OwS;
+
     public bool[] Task;
 
     private void Awake()
@@ -67,19 +77,68 @@ public class LevelManager : MonoBehaviour
         IsDead = false;
         IsPaused = false;
         DialogueIndex = 0;
+        OwS = O2Timer;
         Popo.color = new Color32(255, 255, 255, 255);
         for (int i = 0; i <= Task.Length - 1; i++)
         {
             Task[i] = false;
+        }
+        for (int j = 0; j <= Status.Length - 1; j++)
+        {
+            Status[j] = false;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        QuestUItext.text = QuestText[0]; 
-        
+        QuestUItext.text = QuestText[0];
+        ShipStatusCheck();
     }
+
+    public void Taskchecker()
+    {
+
+    }
+
+    public void ShipStatusCheck()
+    {
+        if (Status[0] == true)
+        {
+            WindStatus.text = "4.4";
+        }else
+        {
+            WindS = Random.Range(1, 12);
+            WindStatus.text = WindS.ToString();
+        }
+
+        if (Status[1] == true)
+        {
+            GravityStatus.value = 0.9f;
+        }
+        else
+        {
+            GravityStatus.value = Random.value;
+        }
+
+        if (Status[2] == true)
+        {
+            O2Status.value = 1;
+        }
+        else
+        {
+            if (OwS <= O2Timer)
+            {
+                OwS -= Time.deltaTime;
+                if (OwS <= 0)
+                {
+                    IsDead = true;
+                }
+            }
+            O2Status.value = 1;
+        }
+    }
+
 
     public void onclickDisplaynext()
     {

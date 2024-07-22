@@ -82,6 +82,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float RayDistance; 
     [SerializeField] float RayDistanceF;
 
+    public GameObject CollectObj;
+    int tind;
+    public float ColMoveSpeed;
+
     public GameObject player1;
     #endregion
 
@@ -388,6 +392,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    public void Collector()
+    {
+        CollectObj.transform.position = Vector3.MoveTowards(CollectObj.transform.position, gameObject.transform.position, ColMoveSpeed);
+        CollectObj.transform.Rotate(Vector3.right, 23 * Time.deltaTime);
+    }
+
     #endregion
 
     #region Colliders
@@ -399,6 +410,13 @@ public class PlayerMovement : MonoBehaviour
             gameObject.GetComponent<Rigidbody>().useGravity = true;
             LevelManager.instance.IsDead = true;
             LevelManager.instance.DeadPanel.SetActive(true);
+        }
+
+        if (other.gameObject.tag == "Collect")
+        {
+            LevelManager.instance.Task[tind] = true;
+            LevelManager.instance.TaskCc[tind].SetActive(false);
+            Destroy(CollectObj);
         }
 
         if (other.gameObject.tag == "LaunchPad")
@@ -464,6 +482,16 @@ public class PlayerMovement : MonoBehaviour
             {
                 LandingPerms = false;
                 PlayerFlyState = 1;
+            }
+        }
+
+        if (other.gameObject.tag == "Task")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+               CollectObj = other.gameObject.GetComponent<Tasker>().obj;
+               tind = other.gameObject.GetComponent<Tasker>().TaskIndex;
+               Collector();
             }
         }
     }
