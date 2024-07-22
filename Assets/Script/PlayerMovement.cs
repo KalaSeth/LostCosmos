@@ -416,7 +416,8 @@ public class PlayerMovement : MonoBehaviour
         {
             LevelManager.instance.Task[tind] = true;
             LevelManager.instance.TaskCc[tind].SetActive(false);
-            Destroy(CollectObj);
+            LevelManager.instance.Taskmini[tind].SetActive(false);
+            LevelManager.instance.Holdpanel.SetActive(false);
         }
 
         if (other.gameObject.tag == "LaunchPad")
@@ -426,6 +427,21 @@ public class PlayerMovement : MonoBehaviour
                 LevelManager.instance.DialogueIndex++;
                 LevelManager.instance.dwriter();
                 LevelManager.instance.DialoguePanel.SetActive(true);
+            }
+
+            if (LevelManager.instance.Task[2] == true)
+            {
+                LevelManager.instance.Holdpanel.SetActive(true);
+            }
+
+            if (LevelManager.instance.Task[2] == true)
+            {
+                LevelManager.instance.Holdpanel.SetActive(true);
+            }
+
+            if (LevelManager.instance.Task[2] == true)
+            {
+                LevelManager.instance.Holdpanel.SetActive(true);
             }
         }
 
@@ -453,13 +469,33 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+        if (other.gameObject.tag == "Task")
+        {
+            LevelManager.instance.Holdpanel.SetActive(true);
+        }
+
+        if (other.gameObject.tag == "LandingPad")
+        { LevelManager.instance.Holdpanel.SetActive(true); }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Trader")
+        if (other.gameObject.tag == "LaunchPad")
+        {
+            LevelManager.instance.Holdpanel.SetActive(false);
+        }
+        if (other.gameObject.tag == "LandingPad")
+        { LevelManager.instance.Holdpanel.SetActive(false); }
+            if (other.gameObject.tag == "Trader")
         {
 
+        }
+
+        if (other.gameObject.tag == "Task")
+        {
+            if (CollectObj == null) return;
+            CollectObj.GetComponent<BoxCollider>().enabled = false;
+            LevelManager.instance.Holdpanel.SetActive(false);
         }
     }
 
@@ -467,11 +503,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.tag == "LaunchPad")
         {
+            
             Debug.Log("Launching Perms");
             if (Input.GetKey(KeyCode.E))
             {
                 LandingPerms = true;
                 PlayerFlyState = 1;
+
             }
         } 
 
@@ -490,6 +528,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.E))
             {
                CollectObj = other.gameObject.GetComponent<Tasker>().obj;
+               CollectObj.GetComponent<BoxCollider>().enabled = true;
                tind = other.gameObject.GetComponent<Tasker>().TaskIndex;
                Collector();
             }

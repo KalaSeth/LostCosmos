@@ -56,6 +56,7 @@ public class LevelManager : MonoBehaviour
     private Coroutine typingCoroutine;
 
     public GameObject[] TaskCc;
+    public GameObject[] Taskmini;
     public Text WindStatus;
     public Slider GravityStatus;
     public Slider O2Status;
@@ -66,6 +67,9 @@ public class LevelManager : MonoBehaviour
     float OwS;
 
     public bool[] Task;
+
+    public GameObject Holdpanel;
+    public Text planettext;
 
     private void Awake()
     {
@@ -78,6 +82,8 @@ public class LevelManager : MonoBehaviour
         IsPaused = false;
         DialogueIndex = 0;
         OwS = O2Timer;
+        O2Status.maxValue = 700;
+
         Popo.color = new Color32(255, 255, 255, 255);
         for (int i = 0; i <= Task.Length - 1; i++)
         {
@@ -87,12 +93,19 @@ public class LevelManager : MonoBehaviour
         {
             Status[j] = false;
         }
+        Holdpanel.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         QuestUItext.text = QuestText[0];
+        
+        if (IsCutscene == false)
+        {
+            planettext.text = "You are at  " + PlayerMovement.instance.PlanetNames[PlayerMovement.instance.PlanetIndex];
+        }
+        
         ShipStatusCheck();
     }
 
@@ -123,7 +136,7 @@ public class LevelManager : MonoBehaviour
 
         if (Status[2] == true)
         {
-            O2Status.value = 1;
+            O2Status.value = OwS;
         }
         else
         {
@@ -135,7 +148,7 @@ public class LevelManager : MonoBehaviour
                     IsDead = true;
                 }
             }
-            O2Status.value = 1;
+            O2Status.value = OwS;
         }
     }
 
@@ -182,6 +195,10 @@ public class LevelManager : MonoBehaviour
                 DialogueIndex++;
                 Popo.color = new Color32(255, 255, 255, 255);
                 dwriter();
+                TaskCc[0].SetActive(true);
+                TaskCc[1].SetActive(true);
+                Taskmini[0].SetActive(true);
+                Taskmini[1].SetActive(true);
                 break;
 
             case 6:
